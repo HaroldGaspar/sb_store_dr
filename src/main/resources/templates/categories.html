@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/template::head">
+</head>
+<body>
+<header th:replace="fragments/template::nave"></header>
+<div class="container">
+    <h3>Categories</h3>
+
+    <div class="col-md-12"  sec:authorize="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/categories/add}" class="btn btn-primary btn-sm" >Add</a>
+    </div>
+
+    <div th:switch="categories">
+
+        <div th:case="*">
+
+            <table class="table">
+
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Img Url</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category : ${categories}">
+
+                    <th scope="row" th:text="${category.categoryId}" ></th>
+                    <td th:text="${category.name}" ></td>
+                    <td th:text="${category.description}" ></td>
+                    <td th:text="${category.imgUrl}" ></td>
+                    <td class="text-right">
+                        <div class="btn-group"  sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a th:href="@{/categories/edit/{id} (id=${category.categoryId}) }"
+                               class="btn btn-secondary btn-sm" >Edit</a>
+                            <a th:href="@{/categories/delete/{id} (id=${category.categoryId}) }"
+                               class="btn btn-danger btn-sm" >Delete</a>
+                        </div>
+<!--                        <div class="btn-group">-->
+                        <div class="btn-group" sec:authorize="hasRole('ROLE_USER')">
+                            <a th:href="@{/products/?categoryId={categoryId} (categoryId=${category.categoryId}) }"
+                               class="btn btn-secondary btn-sm" >ver productos</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

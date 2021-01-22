@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:fragment="head">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--    css-->
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <title>Tienda</title>
+</head>
+<body>
+
+<!--BARRA DE NAV-->
+<header th:fragment="nave">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/store}">Tienda</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="navbar-nav justify-content-center">
+                    <li class="nav-item active"><a class="nav-link" th:href="@{/categories}">Categories</a></li>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="d-flex align-items-stretch">
+                        <li class="nav-item"><a class="nav-link" th:href="@{/products}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clients</a></li>
+                    </div>
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
+                    <!--                    <li><a href="Ulogin.html"><span class="glyphicon glyphicon-user"></span> Mi cuenta</a></li>-->
+                    <!--                    <li><link value="Carrito" outcome="Carrito" /></li>-->
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}" class="btn btn-outline-warning">login</a>
+                    </li>
+                    <li class="dropdown show" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-secondary dropdown-toggle" href="#"
+                           role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <span sec:authentication="name"></span>
+                            <span sec:authentication="principal.authorities" sec:authorize="isAuthenticated()"></span>
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{/myCart/1}">cart</a>
+                            <a class="dropdown-item" href="#">change credentials</a>
+                            <!--                            <a class="dropdown-item" href="#">logout</a>-->
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item">logout</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>
+</nav>
+
+<!--    MESSAGES-->
+    <div class="alert alert-success alert-dismisable" th:if="${success!=null}">
+        <label th:text="${success}"></label>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <div class="alert alert-success alert-dismisable" th:if="${error!=null}">
+        <label th:text="${error}"></label>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <div class="alert alert-success alert-dismisable" th:if="${warning!=null}">
+        <label th:text="${warning}"></label>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <div class="alert alert-success alert-dismisable" th:if="${info!=null}">
+        <label th:text="${info}"></label>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+</header>
+</body>
+</html>

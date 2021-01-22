@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/template::head"></head>
+<body>
+<header th:replace="fragments/template::nave"></header>
+<div class="container">
+    <h3>Clients</h3>
+
+    <div class="col-md-12">
+        <a th:href="@{/clients/add}" class="btn btn-primary btn-sm">Add</a>
+    </div>
+
+    <div th:switch="clients">
+
+        <div th:case="*">
+
+            <table class="table">
+
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Cart Id</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="client : ${clients}">
+                    <th scope="row" th:text="${client.clientId}"></th>
+                    <td th:text="${client.firstName}"></td>
+                    <td th:text="${client.lastName}"></td>
+                    <td th:text="${client.user}"></td>
+                    <td th:text="${client.password}"></td>
+                    <td th:text="${client.cart.cartId}"></td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <a th:href="@{/clients/edit/{id} (id=${client.clientId}) }"
+                               class="btn btn-secondary btn-sm">Edit</a>
+                            <a th:href="@{/clients/delete/{id} (id=${client.clientId}) }"
+                               class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

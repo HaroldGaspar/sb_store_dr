@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Cart</title>
+</head>
+<body>
+<header th:replace="fragments/template::nave"></header>
+<div class="container">
+    <div class="bg-dark d-nlock text-white">
+        <div class="container text-center">
+            <h1>MY CART</h1>
+        </div>
+    </div>
+
+
+    <!--    ////////////////////////////////////-->
+
+    <div th:switch="myCartDetails">
+
+        <div th:case="*">
+
+            <table class="table">
+
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">Cart Id</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartDetail : ${myCartDetails}">
+
+                    <th scope="row" th:text="${cartDetail.product.productId}" ></th>
+                    <td th:text="${cartDetail.cart.cartId}" ></td>
+                    <td th:text="${cartDetail.amount}" ></td>
+<!--                    <td th:text="${cartDetail.price}" ></td>-->
+                    <td></td>
+                    <td class="text-right">
+                        <!--
+                        <div class="btn-group">
+                            <a th:href="@{/myCart/delete/{cartId} (cartId=${cartDetail.cart.cartId}, productId=${cartDetail.product.productId}) }" class="btn btn-danger btn-sm" >Delete</a>
+                        </div>
+                        -->
+
+                        <form action="#" method="post" th:action="@{/myCart/delete/{cartId}/{productId} (cartId=${cartDetail.cart.cartId}, productId=${cartDetail.product.productId}) }" >
+                                <div class="btn-group " type="submit">
+                                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                                </div>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

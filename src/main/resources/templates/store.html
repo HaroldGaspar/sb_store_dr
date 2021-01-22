@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments/template::head">
+</head>
+<body>
+<nav class="container">
+    <div class="bg-dark d-nlock text-white">
+        <div class="container text-center">
+            <h1>Tienda</h1>
+            <p>Compra tus productos online y te los enviamos a casa</p>
+        </div>
+    </div>
+</nav>
+<header th:replace="fragments/template::nave"></header>
+
+    <!--    ////////////////////////////////////-->
+
+<div class="container">
+    <div th:switch="products">
+
+        <div th:case="*">
+
+            <table class="table">
+
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Peso Gramos</th>
+                    <th scope="col">Img Url</th>
+                    <th scope="col">Product Category</th>
+                    <th scope="col">Cantidad</th>
+<!--                    <th></th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+
+                    <th scope="row" th:text="${product.productId}" ></th>
+                    <td th:text="${product.name}" ></td>
+                    <td th:text="${product.description}" ></td>
+                    <td th:text="${product.stock}" ></td>
+                    <td th:text="${product.price}" ></td>
+                    <td th:text="${product.weightGrams}" ></td>
+                    <td th:text="${product.imgUrl}" ></td>
+                    <td th:text="${product.productCategory.name}" ></td>
+                    <td class="text-right">
+                        <div sec:authorize="hasRole('ROLE_USER')">
+                        <form action="#" method="post" th:action="@{/carts/save{productId} (productId=${product.productId})}" th:object="${cartDetail}" >
+                            <div class="form-group d-flex justify-content-center">
+                                <input type="number" class="form-control" id="amount" th:field="*{amount}">
+
+                            <div class="btn-group " type="submit">
+                                <button type="submit" class="btn btn-primary btn-sm">Add Cart</button>
+                            </div>
+                            </div>
+                        </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>
